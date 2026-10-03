@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>첼시 웹챗 연결</title>
+</head>
+<body>
+<p id="msg">접속 주소를 확인하는 중입니다...</p>
+<script>
+const LINKS_URL = "REPLACE_WITH_RAW_LINKS_JSON_URL";
+const token = new URLSearchParams(location.hash.slice(1)).get("t") || "";
+
+async function go() {
+  const msg = document.getElementById("msg");
+  let data;
+  try {
+    const res = await fetch(LINKS_URL + "?_=" + Date.now(), { cache: "no-store" });
+    data = await res.json();
+  } catch (e) {
+    msg.textContent = "접속 주소 정보를 불러오지 못했습니다.";
+    return;
+  }
+  const base = data.tunnel ? data.tunnel.replace(/\/$/, "") : "";
+  if (!base) {
+    msg.textContent = "현재 연결 가능한 외부 주소가 없습니다. 노트북의 link_agent를 확인하십시오.";
+    return;
+  }
+  location.replace(base + "/?t=" + encodeURIComponent(token));
+}
+go();
+</script>
+</body>
+</html>
