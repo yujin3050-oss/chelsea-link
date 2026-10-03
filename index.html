@@ -8,7 +8,7 @@
 <body>
 <p id="msg">접속 주소를 확인하는 중입니다...</p>
 <script>
-const LINKS_URL = "REPLACE_WITH_RAW_LINKS_JSON_URL";
+const LINKS_URL = "https://raw.githubusercontent.com/yujin3050-oss/chelsea-link/main/links.json";
 const token = new URLSearchParams(location.hash.slice(1)).get("t") || "";
 
 async function go() {
